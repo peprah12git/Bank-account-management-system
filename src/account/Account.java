@@ -60,11 +60,25 @@ public abstract class Account {
     public abstract String getAccountType();
 
     // -------------Deposit money--------------------
+
+    /**
+     *
+     * @param amount
+     * @throws InvalidAmountException
+     */
     public void deposit(double amount) throws InvalidAmountException {
         if (amount <= 0) {
             throw new InvalidAmountException("Deposit amount can not be zero");
         } this.balance+=amount;
     }
+
+    /**
+     *
+     * @param amount
+     * @return
+     * @throws InsufficientFundsException
+     * @throws InvalidAmountException
+     */
     // Withdraw Money
     public  boolean withdraw(double amount) throws InsufficientFundsException ,InvalidAmountException{
         if (amount > balance){

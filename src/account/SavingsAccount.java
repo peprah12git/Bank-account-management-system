@@ -28,6 +28,13 @@ public class SavingsAccount extends Account{
 
     }
 
+    /**
+     * Validates that a withdrawal amount does not breach the minimum balance requirement.
+     * @param amount
+     * @return
+     * @throws InsufficientFundsException when the withdrawal would result in a balance below the minimum
+     * @throws InvalidAmountException
+     */
     @Override
     public boolean withdraw(double amount)  throws InsufficientFundsException,InvalidAmountException {
         if (getBalance() - amount < minimumBalance) {

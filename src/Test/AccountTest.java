@@ -1,8 +1,8 @@
-package account;
+package Test;
 
+import account.SavingsAccount;
 import customers.Customer;
 import customers.RegularCustomer;
-import exception.InsufficientFundsException;
 import exception.InvalidAmountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,11 +70,7 @@ class AccountTest {
         assertThrows(InvalidAmountException.class, () -> account.withdraw(0));
     }
 
-    @Test
-    public void testInvalidWithdrawal()  {
-        SavingsAccount account = new SavingsAccount(customer, 1000);
-        assertThrows(InsufficientFundsException.class, () -> account.withdraw(0));
-    }
+
 
     @Test
     void processTransaction() {

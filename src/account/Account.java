@@ -1,6 +1,7 @@
 package account;
 
 import customers.Customer;
+import exception.InvalidAmountException;
 
 public abstract class Account {
     private String accountNumber;
@@ -58,13 +59,10 @@ public abstract class Account {
     public abstract String getAccountType();
 
     // Deposit money
-    public void deposit(double amount) {
+    public void deposit(double amount) throws InvalidAmountException {
         if (amount > 0) {
-            balance += amount;
-            System.out.println("Deposit successful. Balance: " + balance);
-        } else {
-            System.out.println("Invalid deposit amount.");
-        }
+            throw new InvalidAmountException("Deposit amount can not be zero");
+        } this.balance+=amount;
     }
     // Withdraw Money
     public  boolean withdraw(double amount){

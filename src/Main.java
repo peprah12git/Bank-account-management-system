@@ -5,13 +5,14 @@ import account.SavingsAccount;
 import customers.Customer;
 import customers.PremiumCustomer;
 import customers.RegularCustomer;
+import exception.InvalidAmountException;
 import transactions.Transaction;
 import transactions.TransactionManager;
 
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidAmountException {
         System.out.println("-------------------------");
         System.out.println(" BANK ACCOUNT MANAGEMENT ");
         System.out.println("-------------------------");
@@ -80,7 +81,7 @@ public class Main {
 
 
     //-----process transaction---------
-    public static void processTransaction(AccountManager accountManager, TransactionManager transactionManager, Scanner scanner) {
+    public static void processTransaction(AccountManager accountManager, TransactionManager transactionManager, Scanner scanner) throws InvalidAmountException {
         System.out.println();
         System.out.println("---------------------");
         System.out.println(" PROCESS TRANSACTION ");

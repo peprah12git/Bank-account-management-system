@@ -1,6 +1,7 @@
 package account;
 
 import customers.Customer;
+import exception.InsufficientFundsException;
 import exception.InvalidAmountException;
 
 public abstract class Account {
@@ -58,23 +59,23 @@ public abstract class Account {
     public abstract void displayAccountDetails();
     public abstract String getAccountType();
 
-    // Deposit money
+    // -------------Deposit money--------------------
     public void deposit(double amount) throws InvalidAmountException {
-        if (amount > 0) {
+        if (amount <= 0) {
             throw new InvalidAmountException("Deposit amount can not be zero");
         } this.balance+=amount;
     }
     // Withdraw Money
-    public  boolean withdraw(double amount){
+    public  boolean withdraw(double amount) throws InsufficientFundsException ,InvalidAmountException{
         if (amount > balance){
-            System.out.println("Insufficient funds withdrawer can not be made");
-        }else {
-            balance-=amount;
-            System.out.println("Withdrawal made successfully");
+            throw new InsufficientFundsException("Insufficient funds! current balance is " + getBalance());
+        } if (amount <= balance){
+            throw new InvalidAmountException("Withdrawal must be greater done Zero is ");
         }
+            balance-=amount;
         return true;
     }
 
-    public abstract boolean processTransaction(double amount, String type);
+    public abstract boolean processTransaction(double amount, String type) throws InvalidAmountException;
 
 }

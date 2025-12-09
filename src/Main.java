@@ -6,13 +6,15 @@ import customers.Customer;
 import customers.PremiumCustomer;
 import customers.RegularCustomer;
 import exception.InvalidAmountException;
+import exception.ViewAccountException;
 import transactions.Transaction;
 import transactions.TransactionManager;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws InvalidAmountException {
+    public static void main(String[] args) throws InvalidAmountException, AccountNotFoundException, ViewAccountException {
         System.out.println("-------------------------");
         System.out.println(" BANK ACCOUNT MANAGEMENT ");
         System.out.println("-------------------------");
@@ -31,8 +33,8 @@ public class Main {
             System.out.println("-----------");
             System.out.println("1. Create Account");
             System.out.println("2. View Accounts");
-            System.out.println("3. Process Transaction");
-            System.out.println("4. View Transaction History for an account");
+            System.out.println("3. Process Test.Transaction");
+            System.out.println("4. View Test.Transaction History for an account");
             System.out.println("5. Exit\n");
 
             choice = readInt(scanner, "Enter your choice: ", 1, 6);
@@ -81,7 +83,7 @@ public class Main {
 
 
     //-----process transaction---------
-    public static void processTransaction(AccountManager accountManager, TransactionManager transactionManager, Scanner scanner) throws InvalidAmountException {
+    public static void processTransaction(AccountManager accountManager, TransactionManager transactionManager, Scanner scanner) throws InvalidAmountException, AccountNotFoundException {
         System.out.println();
         System.out.println("---------------------");
         System.out.println(" PROCESS TRANSACTION ");
@@ -97,7 +99,7 @@ public class Main {
         }
         account.displayAccountDetails();
 
-        System.out.println("\nSelect Transaction Type:");
+        System.out.println("\nSelect Test.Transaction Type:");
         System.out.println("1. Deposit");
         System.out.println("2. Withdraw");
 
@@ -116,9 +118,9 @@ public class Main {
 
         System.out.println();
         System.out.println("+--------------------------+");
-        System.out.println("| Transaction Confirmation |");
+        System.out.println("| Test.Transaction Confirmation |");
         System.out.println("+--------------------------+");
-        System.out.println("Transaction ID: " +transaction.getTransactionId());
+        System.out.println("Test.Transaction ID: " +transaction.getTransactionId());
         System.out.println("Account: " + account.getAccountNumber());
         System.out.println("Type: " + typeStr.toUpperCase());
         System.out.println("Amount: $" + amount);
@@ -130,7 +132,7 @@ public class Main {
         String confirm = scanner.nextLine().trim().toLowerCase();
 
         if (!confirm.startsWith("y")) {
-            System.out.println("Transaction cancelled.");
+            System.out.println("Test.Transaction cancelled.");
 //            transaction = null;
             return;
         }
@@ -206,10 +208,10 @@ public class Main {
     }
 
     private static Customer createCustomer(Scanner scanner) {
-        String name = readString(scanner, "\nEnter customer name: ");
-        int age = readInt(scanner, "Enter customer age: ", 0, 150);
-        String contact = readString(scanner, "Enter customer contact: ");
-        String address = readString(scanner, "Enter customer address: ");
+        String name = readString(scanner, "\nEnter Test.customer name: ");
+        int age = readInt(scanner, "Enter Test.customer age: ", 0, 150);
+        String contact = readString(scanner, "Enter Test.customer contact: ");
+        String address = readString(scanner, "Enter Test.customer address: ");
 
         System.out.println("\nCustomer type:");
         System.out.println("1. Regular Customer (Standard banking services)");
@@ -246,8 +248,8 @@ public class Main {
     }
 
 
-    //----------View accounts-------------------------.
-    public static void viewAccounts(AccountManager accountManager, Scanner scanner) {
+    //----------View Test.accounts-------------------------.
+    public static void viewAccounts(AccountManager accountManager, Scanner scanner) throws ViewAccountException {
         accountManager.viewAllAccounts();
     }
 

@@ -29,11 +29,11 @@ public abstract class Account {
     public String getAccountNumber() {
         return accountNumber;
     }
-    // getter for customer
+    // getter for Test.customer
     public Customer getCustomer() {
         return customer;
     }
-    // setter for customer
+    // setter for Test.customer
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -55,7 +55,7 @@ public abstract class Account {
     public double setBalance(double balance) {
         return balance;
     }
-    // get accounts.Account method & Display Account method
+    // get Test.accounts.Account method & Display Account method
     public abstract void displayAccountDetails();
     public abstract String getAccountType();
 

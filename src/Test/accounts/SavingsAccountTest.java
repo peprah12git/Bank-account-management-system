@@ -1,4 +1,4 @@
-package Test;
+package Test.accounts;
 
 import org.junit.jupiter.api.Test;
 

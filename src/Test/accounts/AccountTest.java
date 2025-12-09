@@ -1,4 +1,4 @@
-package Test;
+package Test.accounts;
 
 import account.SavingsAccount;
 import customers.Customer;

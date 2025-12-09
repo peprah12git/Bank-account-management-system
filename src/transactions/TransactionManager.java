@@ -18,7 +18,7 @@ public class TransactionManager {
             transactions[transactionCount] = transaction;
             transactionCount++;
         } else {
-            System.out.println("Transaction list is full.");
+            System.out.println("Test.Transaction list is full.");
         }
     }
 

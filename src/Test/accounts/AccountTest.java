@@ -3,7 +3,7 @@ package Test.accounts;
 import account.SavingsAccount;
 import customers.Customer;
 import customers.RegularCustomer;
-import exception.InvalidAmountException;
+import exceptions.InvalidAmountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

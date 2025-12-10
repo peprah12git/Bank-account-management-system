@@ -1,8 +1,10 @@
 package account;
 
-import exception.ViewAccountException;
+import exceptions.AccountNotFoundException;
+import exceptions.ViewAccountException;
+import utils.InputReader;
 
-import javax.security.auth.login.AccountNotFoundException;
+//import javax.security.auth.login.AccountNotFoundException;
 
 
 public class AccountManager {
@@ -25,7 +27,7 @@ public class AccountManager {
         }
     }
 
-    // find account method
+    //------------------ finding account method----------------
     public Account findAccount(String accountNumber) throws AccountNotFoundException {
         // Loop through all Test.accounts in the manager
         for (int i = 0; i < accountCount; i++) {
@@ -38,7 +40,7 @@ public class AccountManager {
     }
 
     // view all Test.accounts
-    public void viewAllAccounts() throws ViewAccountException {
+    public void viewAllAccounts(InputReader inputReader) throws ViewAccountException {
         if (accountCount == 0) {
             throw new ViewAccountException(); // Throw exception instead of printing
         }

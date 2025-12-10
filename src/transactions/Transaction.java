@@ -76,9 +76,6 @@ public class Transaction {
         return  timestamp;
     }
 
-    public void setStringTimestamp(String stringTimestamp) {
-        timestamp = stringTimestamp;
-    }
     public  void  displayTransactionDetails(){
         System.out.printf(
                 " %s | %s | %s | $%.2fd | $%.2f %n", transactionId, timestamp,type, amount, balanceAfter

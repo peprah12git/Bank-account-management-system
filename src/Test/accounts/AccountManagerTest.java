@@ -3,10 +3,11 @@ package Test.accounts;
 import account.*;
 import customers.Customer;
 import customers.RegularCustomer;
-import exception.ViewAccountException;
+import exceptions.ViewAccountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import exception.AccountNotFoundException;
+import exceptions.AccountNotFoundException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,19 +28,20 @@ class AccountManagerTest {
         accountManager.addAccount(account);
         assertEquals(1, accountManager.getAccountCount());
     }
-    //Test method for when the account does not exist
-//    @Test
-//    void testFindAccountExists() throws AccountNotFoundException {
-//        Account found = accountManager.findAccount("12345");
-//        assertNotNull(found);
-//        assertEquals("12345", found.getAccountNumber());
-//    }
+    @Test
+    void testFindAccountThrowsExceptionWhenNotExist() {
+        AccountManager manager = new AccountManager(); // empty manager
+        assertThrows(AccountNotFoundException.class, () -> {
+            manager.findAccount("ACC001");  // test triggers exception
+        });
+    }
+
     @Test
     void testViewAllAccountsThrowsExceptionWhenEmpty()  throws ViewAccountException{
         AccountManager manager = new AccountManager(); // no Test.accounts added
         // Check that the exception is thrown
         assertThrows(ViewAccountException.class, () -> {
-            manager.viewAllAccounts();
+            manager.viewAllAccounts(inputReader);
         });
     }
 

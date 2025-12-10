@@ -1,4 +1,4 @@
-package exception;
+package exceptions;
 
 // 1. Custom exception for viewing Test.accounts
 public class ViewAccountException extends Exception {

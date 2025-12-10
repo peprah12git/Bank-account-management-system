@@ -39,13 +39,14 @@ class TransactionManagerTest {
         assertEquals(150.0, transactionManager.calculateTotalDeposits("Acc001"));
     }
 
+
     @Test
     void testCalculateTotalWithdrawals() {
         transactionManager.addTransaction(new Transaction("ACC001", "DEPOSIT", 100.0, 100.0));
         transactionManager.addTransaction(new Transaction("ACC001", "WITHDRAWAL", 20.0, 80.0));
         transactionManager.addTransaction(new Transaction("ACC001", "WITHDRAWAL", 30.0, 50.0));
 
-        assertEquals(50.0, transactionManager.calculateTotalWithdrawals("ACC001"));
+        assertEquals(50.0, transactionManager.calculateTotalWithdrawals());
     }
 
     @Test
@@ -55,7 +56,6 @@ class TransactionManagerTest {
             transactionManager.addTransaction(new Transaction("ACC001", "DEPOSIT", 1.0, 1.0));
         }
         assertEquals(200, transactionManager.getTransactionCount());
-
         // Try adding one more
         transactionManager.addTransaction(new Transaction("ACC001", "DEPOSIT", 1.0, 1.0));
         assertEquals(200, transactionManager.getTransactionCount());

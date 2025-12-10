@@ -1,8 +1,8 @@
 package account;
 
 import customers.Customer;
-import exception.InsufficientFundsException;
-import exception.InvalidAmountException;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
 
 public class CheckingAccount extends Account {
 
@@ -30,7 +30,7 @@ public class CheckingAccount extends Account {
     }
 
     @Override
-    public boolean withdraw (double amount) throws InsufficientFundsException,InvalidAmountException {
+    public boolean withdraw (double amount) throws InsufficientFundsException{
         double allowedLimit = -overdraftLimit; // balance can go down to -1000
 
         if (getBalance() - amount < allowedLimit) {
@@ -38,7 +38,7 @@ public class CheckingAccount extends Account {
             return false;
         }
 
-        return super.withdraw(amount); // uses parent logic for updating balance
+        return false;
     }
 
     @Override

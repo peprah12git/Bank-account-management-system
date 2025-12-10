@@ -1,8 +1,8 @@
 package account;
 
 import customers.Customer;
-import exception.InsufficientFundsException;
-import exception.InvalidAmountException;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
 
 public abstract class Account {
     private String accountNumber;
@@ -62,7 +62,6 @@ public abstract class Account {
     // -------------Deposit money--------------------
 
     /**
-     *
      * @param amount
      * @throws InvalidAmountException
      */
@@ -80,15 +79,16 @@ public abstract class Account {
      * @throws InvalidAmountException
      */
     // Withdraw Money
-    public  boolean withdraw(double amount) throws InsufficientFundsException ,InvalidAmountException{
-        if (amount > balance){
-            throw new InsufficientFundsException("Insufficient funds! current balance is " + getBalance());
-        } if (amount <= balance){
-            throw new InvalidAmountException("Withdrawal must be greater done Zero is ");
-        }
-            balance-=amount;
-        return true;
-    }
+//    public  boolean withdraw(double amount) throws InsufficientFundsException ,InvalidAmountException{
+//        if (amount > balance){
+//            throw new InsufficientFundsException("Insufficient funds! current balance is " + getBalance());
+//        } if (amount <= balance){
+//            throw new InvalidAmountException("Withdrawal must be greater done Zero is ");
+//        }
+//            balance-=amount;
+//        return true;
+//    }
+    public abstract boolean withdraw(double amount) throws InsufficientFundsException;
 
     public abstract boolean processTransaction(double amount, String type) throws InvalidAmountException;
 

@@ -49,6 +49,7 @@ public class AccountManager {
             accounts[i].displayAccountDetails();
             System.out.println("--------------------------------");
         }
+        inputReader.waitForEnter();
     }
 
     // sum of all balances

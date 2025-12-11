@@ -36,7 +36,7 @@ class TransactionManagerTest {
         transactionManager.addTransaction(new Transaction("ACC001", "DEPOSIT", 50.0, 150.0));
         transactionManager.addTransaction(new Transaction("ACC001", "WITHDRAWAL", 30.0, 120.0));
 
-        assertEquals(150.0, transactionManager.calculateTotalDeposits("Acc001"));
+        assertEquals(150.0, transactionManager.calculateTotalDepositsForAccount("ACC001"));
     }
 
 

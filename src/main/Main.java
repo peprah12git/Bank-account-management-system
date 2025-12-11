@@ -9,7 +9,7 @@ import utils.*;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("+-------------------------+\n| BANK ACCOUNT MANAGEMENT |\n+-------------------------+");
+        System.out.println("+-------------------------\n| BANK ACCOUNT MANAGEMENT |\n+-------------------------+");
 
         AccountManager accountManager = new AccountManager();
         TransactionManager transactionManager = new TransactionManager();
@@ -17,6 +17,7 @@ public class Main {
 
         try (ConsoleInputReader inputReader = new ConsoleInputReader()) {
             int choice;
+
             do {
                 displayMainMenu();
                 choice = inputReader.readInt("Enter your choice: ", 1, 9);
@@ -27,22 +28,46 @@ public class Main {
         System.out.println("Thank you for using Bank Account Management System!\nGoodbye!");
     }
 
+
+    // ========================================
+    // MENU DISPLAY METHODS
+    // ========================================
+
     private static void displayMainMenu() {
         System.out.println("\n+-----------+\n| MAIN MENU |\n+-----------+");
-        System.out.println("1. Create Account\n2. View Accounts\n3. View Customers\n4. Process Transaction");
-        System.out.println("5. View Transaction History for an account\n6. View all Transaction Histories");
-        System.out.println("7. Generate Bank Statement\n8. Run Tests\n9. Exit\n");
+        System.out.println("1. Create Account");
+        System.out.println("2. View Accounts");
+        System.out.println("3. View Customers");
+        System.out.println("4. Process Transaction");
+        System.out.println("5. View Transaction History for an account");
+        System.out.println("6. View all Transaction Histories");
+        System.out.println("7. Generate Bank Statement");
+        System.out.println("8. Run Tests");
+        System.out.println("9. Exit\n");
     }
+
+
+    // ========================================
+    // MENU ROUTING
+    // ========================================
 
     private static void handleMenuChoice(
             int choice,
             AccountManager accountManager,
             TransactionManager transactionManager,
             CustomerManager customerManager,
-            InputReader inputReader) throws ViewAccountException {
+            InputReader inputReader)  {
+
         switch (choice) {
             case 1 -> createAccount(accountManager, customerManager, inputReader);
-            case 2 -> accountManager.viewAllAccounts(inputReader);
+            case 2 -> {
+                try {
+                    accountManager.viewAllAccounts(inputReader);
+                }catch (ViewAccountException e){
+                    System.out.println(e.getMessage());
+                }
+
+            }
             case 3 -> customerManager.viewAllCustomers(inputReader);
             case 4 -> processTransaction(accountManager, transactionManager, inputReader);
             case 5 -> viewTransactionHistory(transactionManager, inputReader);
@@ -54,14 +79,109 @@ public class Main {
         }
     }
 
-    private static void viewTransactionHistory(TransactionManager transactionManager, InputReader inputReader) {
-        System.out.println("\n+--------------------------+\n| VIEW TRANSACTION HISTORY |\n+--------------------------+");
-        String accountNumber = inputReader.readString("\nEnter Account number: ");
-        transactionManager.viewTransactionsByAccount(accountNumber, inputReader);
+
+    // ========================================
+    // ACCOUNT CREATION
+    // ========================================
+
+    private static void createAccount(
+            AccountManager accountManager,
+            CustomerManager customerManager,
+            InputReader inputReader) {
+
+        System.out.println("\n+------------------+\n| ACCOUNT CREATION |\n+------------------+");
+
+        // Create customer
+        Customer customer = createCustomer(inputReader);
+        customerManager.addCustomer(customer);
+
+        // Create account for customer
+        Account account = createAccountForCustomer(inputReader, customer);
+
+        // Display confirmation
+        System.out.println("\n+--------------+\n| Confirmation |\n+--------------+");
+        System.out.printf("Customer Name: %s\n", customer.getName());
+
+        String customerType;
+        if (customer instanceof RegularCustomer) {
+            customerType = "Regular";
+        } else {
+            customerType = "Premium (Enhanced benefits, min balance $10,000)";
+        }
+        System.out.printf("Customer Type: %s\n", customerType);
+
+        System.out.printf("Account Type: %s\n", account.getAccountType());
+        System.out.printf("Initial Deposit: $%.2f\n", account.getBalance());
+
+        // Confirm and save
+        if (inputReader.readString("\nConfirm account creation? (y/n): ").toLowerCase().startsWith("y")) {
+            accountManager.addAccount(account);
+            System.out.println("Account Created Successfully!");
+            account.displayAccountDetails();
+            customer.displayCustomerDetails();
+        } else {
+            System.out.println("Account creation cancelled.");
+        }
+
+        inputReader.waitForEnter();
     }
 
+    private static Customer createCustomer(InputReader inputReader) {
+        String name = inputReader.readString("\nEnter customer name: ");
+        int age = inputReader.readInt("Enter customer age: ", 0, 150);
+        String contact = inputReader.readString("Enter customer contact: ");
+        String address = inputReader.readString("Enter customer address: ");
+
+        System.out.println("\nCustomer type:");
+        System.out.println("1. Regular Customer (Standard banking services)");
+        System.out.println("2. Premium Customer (Enhanced Benefits)");
+
+        int customerType = inputReader.readInt("\nSelect type (1-2): ", 1, 2);
+
+        if (customerType == 1) {
+            return new RegularCustomer(name, age, contact, address);
+        } else {
+            return new PremiumCustomer(name, age, contact, address);
+        }
+    }
+
+    private static Account createAccountForCustomer(InputReader inputReader, Customer customer) {
+        System.out.println("\nAccount type:");
+        System.out.println("1. Savings Account (Interest: 3.5%, Min Balance: $500)");
+        System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)");
+
+        int accountType = inputReader.readInt("\nSelect type (1-2): ", 1, 2);
+
+        double minDeposit;
+        if (customer instanceof PremiumCustomer) {
+            minDeposit = 10000.0;
+        } else {
+            if (accountType == 1) {
+                minDeposit = 500.0;
+            } else {
+                minDeposit = 0.0;
+            }
+        }
+
+        double initialDeposit = inputReader.readDouble("\nEnter initial deposit amount: ", minDeposit);
+
+        if (accountType == 1) {
+            return new SavingsAccount(customer, initialDeposit);
+        } else {
+            return new CheckingAccount(customer, initialDeposit);
+        }
+    }
+
+
+    // ========================================
+    // TRANSACTION PROCESSING
+    // ========================================
+
     private static void processTransaction(
-            AccountManager accountManager, TransactionManager transactionManager, InputReader inputReader) {
+            AccountManager accountManager,
+            TransactionManager transactionManager,
+            InputReader inputReader) {
+
         System.out.println("\n+---------------------+\n| PROCESS TRANSACTION |\n+---------------------+");
         String accountNumber = inputReader.readString("\nEnter Account number: ");
 
@@ -75,7 +195,11 @@ public class Main {
         }
     }
 
-    private static void handleTransaction(Account account, TransactionManager transactionManager, InputReader inputReader) {
+    private static void handleTransaction(
+            Account account,
+            TransactionManager transactionManager,
+            InputReader inputReader) {
+
         int transactionType = promptTransactionType(inputReader);
         double amount = inputReader.readDouble("Enter amount: ", 0);
 
@@ -88,91 +212,86 @@ public class Main {
         } else {
             System.out.println("Transaction cancelled.");
         }
+
         inputReader.waitForEnter();
     }
 
     private static int promptTransactionType(InputReader inputReader) {
-        System.out.println("\nSelect Transaction Type:\n1. Deposit\n2. Withdraw");
+        System.out.println("\nSelect Transaction Type:");
+        System.out.println("1. Deposit");
+        System.out.println("2. Withdraw");
         return inputReader.readInt("Enter choice (1-2): ", 1, 2);
     }
 
     private static Transaction buildTransaction(Account account, int transactionType, double amount) {
-        String type = transactionType == 1 ? "DEPOSIT" : "WITHDRAWAL";
-        double newBalance = transactionType == 1 ? account.getBalance() + amount : account.getBalance() - amount;
+        String type;
+        if (transactionType == 1) {
+            type = "DEPOSIT";
+        } else {
+            type = "WITHDRAWAL";
+        }
+
+        double newBalance;
+        if (transactionType == 1) {
+            newBalance = account.getBalance() + amount;
+        } else {
+            newBalance = account.getBalance() - amount;
+        }
+
         return new Transaction(account.getAccountNumber(), type, amount, newBalance);
     }
 
     private static void printTransactionConfirmation(Transaction transaction, Account account) {
         System.out.println("\n+--------------------------+\n| Transaction Confirmation |\n+--------------------------+");
-        System.out.printf("Transaction ID: %s\nAccount: %s\nType: %s\nAmount: $%.2f\nPrevious Balance: $%.2f\nNew Balance: $%.2f\nDate/Time: %s\n",
-                transaction.getTransactionId(), account.getAccountNumber(),
-                transaction.getType(), transaction.getAmount(), account.getBalance(), transaction.getBalanceAfter(), transaction.getTimestamp());
+        System.out.printf("Transaction ID: %s\n", transaction.getTransactionId());
+        System.out.printf("Account: %s\n", account.getAccountNumber());
+        System.out.printf("Type: %s\n", transaction.getType());
+        System.out.printf("Amount: $%.2f\n", transaction.getAmount());
+        System.out.printf("Previous Balance: $%.2f\n", account.getBalance());
+        System.out.printf("New Balance: $%.2f\n", transaction.getBalanceAfter());
+        System.out.printf("Date/Time: %s\n", transaction.getTimestamp());
     }
 
     private static boolean confirm(InputReader inputReader) {
         return inputReader.readString("\nConfirm transaction? (y/n): ").toLowerCase().startsWith("y");
     }
 
-    private static void executeTransaction(Account account, TransactionManager transactionManager, Transaction transaction) {
+    private static void executeTransaction(
+            Account account,
+            TransactionManager transactionManager,
+            Transaction transaction) {
+
         try {
             account.processTransaction(transaction.getAmount(), transaction.getType());
             transactionManager.addTransaction(transaction);
-            System.out.printf("%s Successful! New Balance: $%.2f\n", transaction.getType(), account.getBalance());
+            System.out.printf("%s Successful! New Balance: $%.2f\n",
+                    transaction.getType(), account.getBalance());
         } catch (InvalidAmountException e) {
             System.out.println("Transaction failed: " + e.getMessage());
         }
     }
 
-    private static void createAccount(
-            AccountManager accountManager, CustomerManager customerManager, InputReader inputReader) {
-        System.out.println("\n+------------------+\n| ACCOUNT CREATION |\n+------------------+");
-        Customer customer = createCustomer(inputReader);
-        customerManager.addCustomer(customer);
-        Account account = createAccountForCustomer(inputReader, customer);
 
-        System.out.println("\n+--------------+\n| Confirmation |\n+--------------+");
-        System.out.printf("Customer Name: %s\nCustomer Type: %s\nAccount Type: %s\nInitial Deposit: $%.2f\n",
-                customer.getName(),
-                customer instanceof RegularCustomer ? "Regular" : "Premium",
-                account.getAccountType(), account.getBalance());
+    // ========================================
+    // TRANSACTION HISTORY
+    // ========================================
 
-        if (inputReader.readString("\nConfirm account creation? (y/n): ").toLowerCase().startsWith("y")) {
-            accountManager.addAccount(account);
-            System.out.println("Account Created Successfully!");
-            account.displayAccountDetails();
-            customer.displayCustomerDetails();
-        } else {
-            System.out.println("Account creation cancelled.");
-        }
-        inputReader.waitForEnter();
+    private static void viewTransactionHistory(TransactionManager transactionManager, InputReader inputReader) {
+        System.out.println("\n+--------------------------+\n| VIEW TRANSACTION HISTORY |\n+--------------------------+");
+        String accountNumber = inputReader.readString("\nEnter Account number: ");
+        transactionManager.viewTransactionsByAccount(accountNumber, inputReader);
     }
 
-    private static Customer createCustomer(InputReader inputReader) {
-        String name = inputReader.readString("\nEnter customer name: ");
-        int age = inputReader.readInt("Enter customer age: ", 0, 150);
-        String contact = inputReader.readString("Enter customer contact: ");
-        String address = inputReader.readString("Enter customer address: ");
 
-        System.out.println("\nCustomer type:\n1. Regular Customer\n2. Premium Customer");
-        return inputReader.readInt("\nSelect type (1-2): ", 1, 2) == 1
-                ? new RegularCustomer(name, age, contact, address)
-                : new PremiumCustomer(name, age, contact, address);
-    }
-
-    private static Account createAccountForCustomer(InputReader inputReader, Customer customer) {
-        System.out.println("\nAccount type:\n1. Savings Account\n2. Checking Account");
-        int accountType = inputReader.readInt("\nSelect type (1-2): ", 1, 2);
-
-        double minDeposit = customer instanceof PremiumCustomer ? 10000.0 : (accountType == 1 ? 500.0 : 0.0);
-        double initialDeposit = inputReader.readDouble("\nEnter initial deposit amount: ", minDeposit);
-
-        return accountType == 1
-                ? new SavingsAccount(customer, initialDeposit)
-                : new CheckingAccount(customer, initialDeposit);
-    }
+    // ========================================
+    // BANK STATEMENT
+    // ========================================
 
     private static void generateBankStatement(
-            AccountManager accountManager, TransactionManager transactionManager, InputReader inputReader) {
+            AccountManager accountManager,
+            TransactionManager transactionManager,
+            InputReader inputReader) {
+
         System.out.println("\n+----------------+\n| BANK STATEMENT |\n+----------------+");
         String accountNumber = inputReader.readString("\nEnter Account number: ");
 
@@ -184,36 +303,59 @@ public class Main {
         } catch (AccountNotFoundException e) {
             System.out.println(e.getMessage());
         }
+
         inputReader.waitForEnter();
     }
 
     private static void displayTransactions(Transaction[] transactions) {
         System.out.println("\n--- Transactions ---");
+
         if (transactions.length == 0) {
             System.out.println("No transactions found.");
         } else {
             new utils.ConsoleTablePrinter().printTable(
                     new String[] {"TRANSACTION ID", "TYPE", "AMOUNT", "DATE"},
                     java.util.Arrays.stream(transactions)
-                            .map(t -> new String[] {t.getTransactionId(), t.getType(), "$" + t.getAmount(), t.getTimestamp()})
-                            .toArray(String[][]::new));
+                            .map(t -> new String[] {
+                                    t.getTransactionId(),
+                                    t.getType(),
+                                    "$" + t.getAmount(),
+                                    t.getTimestamp()
+                            })
+                            .toArray(String[][]::new)
+            );
         }
     }
 
-    private static void displaySummary(TransactionManager transactionManager, String accountNumber, double balance) {
-        double totalDeposits = transactionManager.calculateTotalDeposits(accountNumber);
-        double totalWithdrawals = transactionManager.calculateTotalWithdrawals(accountNumber);
-        System.out.printf("\n--- Summary ---\nTotal Deposits: $%.2f\nTotal Withdrawals: $%.2f\nNet Change: $%.2f\nClosing Balance: $%.2f\n",
-                totalDeposits, totalWithdrawals, totalDeposits - totalWithdrawals, balance);
+    private static void displaySummary(
+            TransactionManager transactionManager,
+            String accountNumber,
+            double balance) {
+
+        double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
+        double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
+
+        System.out.println("\n--- Summary ---");
+        System.out.printf("Total Deposits: $%.2f\n", totalDeposits);
+        System.out.printf("Total Withdrawals: $%.2f\n", totalWithdrawals);
+        System.out.printf("Net Change: $%.2f\n", totalDeposits - totalWithdrawals);
+        System.out.printf("Closing Balance: $%.2f\n", balance);
     }
+
+
+    // ========================================
+    // TEST RUNNER
+    // ========================================
 
     private static void runTests(InputReader inputReader) {
         System.out.println("Running tests with JUnit...");
+
         try {
             new CustomTestRunner().runTests();
         } catch (Exception e) {
             System.out.println("Failed to run tests: " + e.getMessage());
         }
+
         inputReader.waitForEnter();
     }
 }

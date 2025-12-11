@@ -7,6 +7,7 @@ import exceptions.ViewAccountException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import exceptions.AccountNotFoundException;
+import utils.ConsoleInputReader;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +41,7 @@ class AccountManagerTest {
     void testViewAllAccountsThrowsExceptionWhenEmpty()  throws ViewAccountException{
         AccountManager manager = new AccountManager(); // no Test.accounts added
         // Check that the exception is thrown
+        ConsoleInputReader inputReader = new ConsoleInputReader();
         assertThrows(ViewAccountException.class, () -> {
             manager.viewAllAccounts(inputReader);
         });

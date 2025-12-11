@@ -61,6 +61,8 @@ public class CustomerManager {
         inputReader.waitForEnter();
     }
 
+    // { "CUS001", "kofi", "Premium", "23", "23", "alsjdf" }
+    //
     /** Constructs a 2D array of formatted customer data for tabular display. */
     private String[][] buildTableData() {
         return java.util.stream.IntStream.range(0, customerCount)

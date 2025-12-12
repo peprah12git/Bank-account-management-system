@@ -2,7 +2,7 @@ package utils;
 
 import java.util.Scanner;
 
-/** ----------- implementation of InputReader using Scanner. ----------*/
+/** -----------A helper method for taking input(InputReader) using Scanner. ----------*/
 public class ConsoleInputReader implements InputReader, AutoCloseable {
 
     private final Scanner scanner;

@@ -3,11 +3,11 @@ package utils;
 /** Interface for reading user input with validation. */
 public interface InputReader {
 
-    /** Pauses execution until the user presses Enter. */
+    /**  user presses Enter to continue. */
     void waitForEnter();
 
     /**
-     * Reads an integer within the specified range.
+     * Reads an integer entered by the user that is in the range.
      *
      * @param prompt the message to display
      * @param min the minimum allowed value

@@ -41,7 +41,7 @@ public class Main {
         System.out.println("4. Process Transaction");
         System.out.println("5. View Transaction History for an account");
         System.out.println("6. View all Transaction Histories");
-        System.out.println("7. Generate Bank Statement");
+        System.out.println("7. Generate Account Statement");
         System.out.println("8. Run Tests");
         System.out.println("9. Exit\n");
     }
@@ -262,8 +262,19 @@ public class Main {
             Transaction transaction) {
 
         try {
+            double previousBalance = account.getBalance();
             account.processTransaction(transaction.getAmount(), transaction.getType());
-            transactionManager.addTransaction(transaction);
+
+            // Update transaction with actual new balance
+            Transaction actualTransaction = new Transaction(
+                    account.getAccountNumber(),
+                    transaction.getType(),
+                    transaction.getAmount(),
+                    account.getBalance()  // Use the ACTUAL balance after processing
+            );
+
+            transactionManager.addTransaction(actualTransaction);
+
             System.out.printf("%s Successful! New Balance: $%.2f\n",
                     transaction.getType(), account.getBalance());
         } catch (InvalidAmountException e) {
@@ -292,7 +303,7 @@ public class Main {
             TransactionManager transactionManager,
             InputReader inputReader) {
 
-        System.out.println("\n+----------------+\n| BANK STATEMENT |\n+----------------+");
+        System.out.println("\n+----------------+\n| ACCOUNT STATEMENT |\n+----------------+");
         String accountNumber = inputReader.readString("\nEnter Account number: ");
 
         try {
@@ -332,15 +343,96 @@ public class Main {
             String accountNumber,
             double balance) {
 
+        Transaction[] transactions = transactionManager.getTransactionsForAccount(accountNumber);
         double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
         double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
+        double netChange = totalDeposits - totalWithdrawals;
 
-        System.out.println("\n--- Summary ---");
-        System.out.printf("Total Deposits: $%.2f\n", totalDeposits);
-        System.out.printf("Total Withdrawals: $%.2f\n", totalWithdrawals);
-        System.out.printf("Net Change: $%.2f\n", totalDeposits - totalWithdrawals);
-        System.out.printf("Closing Balance: $%.2f\n", balance);
+        System.out.println("\n--- Transaction Summary ---");
+
+        if (transactions.length == 0) {
+            System.out.println("No transactions found.");
+        } else {
+            // Calculate starting balance
+            double startingBalance = balance - netChange;
+            double runningBalance = startingBalance;
+
+            // Prepare table data with running balance
+            String[][] tableData = new String[transactions.length][];
+            for (int i = 0; i < transactions.length; i++) {
+                Transaction t = transactions[i];
+                double amount = t.getAmount();
+
+                if (t.getType().equalsIgnoreCase("DEPOSIT")) {
+                    runningBalance += amount;
+                } else {
+                    runningBalance -= amount;
+                    amount = -amount; // Show withdrawals as negative
+                }
+
+                tableData[i] = new String[] {
+                        t.getTransactionId(),
+                        t.getType(),
+                        String.format("%s$%.2f", amount >= 0 ? "+" : "", amount),
+                        String.format("$%,.2f", runningBalance)
+                };
+            }
+
+            new ConsoleTablePrinter().printTable(
+                    new String[] {"ID", "TYPE", "AMOUNT", "BALANCE"},
+                    tableData
+            );
+        }
+
+        System.out.println();
+        System.out.printf("Net Change: %s$%.2f\n", netChange >= 0 ? "+" : "", netChange);
+        System.out.println();
+        System.out.println("✓ Statement generated successfully.");
     }
+
+//    private static void displaySummary(
+//            TransactionManager transactionManager,
+//            String accountNumber,
+//            double balance) {
+//
+//        double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
+//        double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
+//
+//        System.out.println("\n---Transactions Statements ---");
+//        System.out.println("ID      | TYPE       | AMOUNT      | BALANCE");
+//        System.out.printf("Total Deposits: $%.2f\n", totalDeposits);
+//        System.out.printf("Total Withdrawals: $%.2f\n", totalWithdrawals);
+//        System.out.printf("Net Change: $%.2f\n", totalDeposits - totalWithdrawals);
+//        System.out.printf("Closing Balance: $%.2f\n", balance);
+//
+//    }
+//    private static void displaySummary(
+//            TransactionManager transactionManager,
+//            String accountNumber,
+//            double balance) {
+//
+//        double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
+//        double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
+//
+//        System.out.println("\n---  Statement Generated ---");
+//        System.out.println("─────────────────────────────────────────────────────────");
+//        System.out.printf("%-10s | %-12s | %12s | %12s\n", "ID", "TYPE", "AMOUNT", "BALANCE");
+//        System.out.println("─────────────────────────────────────────────────────────");
+//
+//        // Display individual transactions
+//        transactionManager.getTransactionsForAccount(accountNumber);
+//
+//        System.out.println("─────────────────────────────────────────────────────────");
+//        System.out.printf("%-25s | %12s | %12s\n", "Total Deposits:",
+//                String.format("$%,.2f", totalDeposits), "");
+//        System.out.printf("%-25s | %12s | %12s\n", "Total Withdrawals:",
+//                String.format("$%,.2f", totalWithdrawals), "");
+//        System.out.printf("%-25s | %12s | %12s\n", "Net Change:",
+//                String.format("$%,.2f", totalDeposits - totalWithdrawals), "");
+//        System.out.printf("%-25s | %12s | %12s\n", "Closing Balance:",
+//                String.format("$%,.2f", balance), "");
+//        System.out.println("─────────────────────────────────────────────────────────");
+//    }
 
 
     // ========================================

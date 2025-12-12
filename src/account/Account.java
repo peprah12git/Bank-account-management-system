@@ -52,8 +52,8 @@ public abstract class Account {
     }
 
     // Setters for balance
-    public double setBalance(double balance) {
-        return balance;
+    public void setBalance(double balance) {
+        this.balance = balance;  //  Actually update the field
     }
     // get Test.accounts.Account method & Display Account method
     public abstract void displayAccountDetails();

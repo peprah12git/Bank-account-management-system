@@ -38,7 +38,9 @@ public class CheckingAccount extends Account {
             return false;
         }
 
-        return false;
+        // Actually deduct the amount
+        setBalance(getBalance() - amount);
+        return true;
     }
 
     @Override

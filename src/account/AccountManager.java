@@ -1,11 +1,7 @@
 package account;
-
 import exceptions.AccountNotFoundException;
 import exceptions.ViewAccountException;
 import utils.InputReader;
-
-//import javax.security.auth.login.AccountNotFoundException;
-
 
 public class AccountManager {
     private Account[] accounts;

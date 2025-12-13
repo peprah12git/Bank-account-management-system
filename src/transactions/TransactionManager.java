@@ -36,11 +36,15 @@ public class TransactionManager {
         this.transactions[this.transactionCount++] = transaction;
     }
 
-    /** Calculates the total amount of all deposits. */
+    /** Calculates the total amount of all deposits for a specific account. */
     public double calculateTotalDepositsForAccount(String accountNumber) {
         double total = 0;
-        for (Transaction t : transactions) { // assuming transactions is a List<Transaction>
-            if (t.getAccountNumber().equals(accountNumber) && t.getType() == DEPOSIT_TYPE) {
+        //  Only loop through actual transactions
+        for (int i = 0; i < transactionCount; i++) {
+            Transaction t = transactions[i];
+            if (t != null &&
+                    t.getAccountNumber().equals(accountNumber) &&
+                    t.getType().equalsIgnoreCase(DEPOSIT_TYPE)) {
                 total += t.getAmount();
             }
         }
@@ -50,14 +54,15 @@ public class TransactionManager {
     /** Calculates the total amount of all deposits. */
     public double calculateTotalDeposits() {
         double total = 0;
-        for (Transaction t : transactions) { // assuming transactions is a List<Transaction>
-            if (t.getType() == DEPOSIT_TYPE) {
+        // ✅ FIXED: Only loop through actual transactions
+        for (int i = 0; i < transactionCount; i++) {
+            Transaction t = transactions[i];
+            if (t != null && t.getType().equalsIgnoreCase(DEPOSIT_TYPE)) {
                 total += t.getAmount();
             }
         }
         return total;
     }
-
 
     /** Calculates the total amount of all withdrawals. */
     public double calculateTotalWithdrawals() {

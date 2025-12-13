@@ -1,6 +1,6 @@
  Banking Management System
 A comprehensive Java-based banking application that demonstrates object-oriented programming principles, exception handling, and clean architecture design.
-📋 Table of Contents
+ Table of Contents
 
 Overview
 Features
@@ -15,7 +15,7 @@ Future Enhancements
 Contributing
 License
 
-🎯 Overview
+ Overview
 The Banking Management System is a console-based application that simulates core banking operations. It provides functionality for managing customer accounts, processing transactions, and maintaining transaction history with a focus on clean code principles and robust error handling.
 Key Highlights
 
@@ -25,17 +25,17 @@ Type Safety: Uses custom exceptions for robust error handling
 Modular Architecture: Clear separation of concerns across packages
 User-Friendly Interface: Console-based menu system with formatted output
 
-✨ Features
+ Features
 Account Management
 
-✅ Create multiple account types (Checking, Savings)
-✅ View all accounts with detailed information
-✅ Search for specific accounts by account number
-✅ Track account balances and status
-✅ Calculate total balance across all accounts
+ Create multiple account types (Checking, Savings)
+ View all accounts with detailed information
+ Search for specific accounts by account number
+ Track account balances and status
+ Calculate total balance across all accounts
 
 
-🏗️ Architecture
+ Architecture
 The application follows a layered architecture pattern:
 ┌─────────────────────────────────────┐
 │         User Interface Layer        │
@@ -65,7 +65,7 @@ The application follows a layered architecture pattern:
 5. Dependency Inversion Principle (DIP) 
 
 
-📁 Project Structure
+ Project Structure
 banking-system/
 │
 ├── src/
@@ -103,7 +103,7 @@ banking-system/
 ├── README.md
 └── .gitignore
 
-🚀 Installation
+ Installation
 Prerequisites
 
 Java Development Kit (JDK) 8 or higher

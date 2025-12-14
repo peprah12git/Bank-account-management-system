@@ -1,23 +1,40 @@
-# Testing Branch
+# Bank Account Management System
 
-# feature/testing
+This repository contains a Java-based Bank Account Management System with separate feature branches for exceptions handling, testing, and the main application entry point.
 
-This branch (`feature/testing`) focuses on implementing **unit and integration testing** for the Bank Account Management System to ensure code correctness, reliability, and maintainability.
+---
 
-## 🎯 Purpose
+##  Branches & Key Features
 
-* Validate business logic in `AccountManager`, `TransactionManager`, and `CustomerManager`
-* Catch regressions early
-* Automate testing for future development
+### 1. `feature/exceptions`
 
-## ✨ What’s Included
+* Implements **custom and centralized exception handling**
+* Handles invalid operations gracefully
+* Enforces business rules using exceptions
+* Structured `try-catch` in application flow
+* Exceptions Package:
 
-* Unit tests for core services and classes
-* Test cases for valid and invalid scenarios
-* Assertions to verify expected behavior
-* Use of JUnit 5 for testing framework
+```
+src/exceptions/
+ ├── AccountNotFoundException.java
+ ├── InsufficientBalanceException.java
+ ├── InvalidAmountException.java
+ ├── CustomerNotFoundException.java
+ └── TransactionException.java
+```
 
-## 📂 Test Structure
+* Usage:
+
+```bash
+git switch feature/exceptions
+```
+
+### 2. `feature/testing`
+
+* Implements **unit and integration testing**
+* Validates core logic in AccountManager, TransactionManager, and CustomerManager
+* Uses **JUnit 5** framework
+* Test Structure:
 
 ```
 src/test/
@@ -26,22 +43,36 @@ src/test/
  └── CustomerManagerTest.java
 ```
 
-## 🚀 Usage
-
-1. Switch to the branch:
+* Usage:
 
 ```bash
 git switch feature/testing
 ```
 
-2. Run tests with your IDE or using Maven/Gradle
-3. Review test coverage and results
+Run tests with IDE or Maven/Gradle.
 
-## 🔀 Status
+### 3. Main Application (`Main.java`)
 
-✔ Unit tests implemented
-✔ Tested core functionalities
-✔ Ready for review and merge
+* Entry point of the system
+* Initializes managers and orchestrates user interactions
+* Provides **menu-driven interface** for banking operations
+* Ensures exception-safe execution
+* Usage:
+
+```bash
+javac Main.java
+java Main
+```
+
+Follow the menu to create accounts, deposit, withdraw, transfer, and view account details.
+
+---
+
+##  Status
+
+* Exceptions feature:  Complete
+* Testing feature:  Complete
+* Main application:  Core functionality implemented
 
 ---
 

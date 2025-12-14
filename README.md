@@ -1,44 +1,48 @@
-# feature/exceptions
+# Testing Branch
 
-This branch implements **custom and centralized exception handling** for the Bank Account Management System to improve reliability and enforce business rules.
+# feature/testing
 
-##  Purpose
+This branch (`feature/testing`) focuses on implementing **unit and integration testing** for the Bank Account Management System to ensure code correctness, reliability, and maintainability.
 
-* Handle invalid operations gracefully
-* Enforce domain rules using custom exceptions
-* Improve debugging   and user feedback
+## 🎯 Purpose
 
-##  What’s Included
+* Validate business logic in `AccountManager`, `TransactionManager`, and `CustomerManager`
+* Catch regressions early
+* Automate testing for future development
 
-* Custom exception classes (e.g. account, transaction, customer errors)
-* Exceptions thrown at service/domain level
-* Structured `try-catch` handling in application flow
-* Clear, descriptive error messages
+## ✨ What’s Included
 
-##  Exceptions Package
+* Unit tests for core services and classes
+* Test cases for valid and invalid scenarios
+* Assertions to verify expected behavior
+* Use of JUnit 5 for testing framework
+
+## 📂 Test Structure
 
 ```
-src/exceptions/
- ├── AccountNotFoundException.java
- ├── InsufficientBalanceException.java
- ├── InvalidAmountException.java
- ├── CustomerNotFoundException.java
- └── TransactionException.java
+src/test/
+ ├── AccountManagerTest.java
+ ├── TransactionManagerTest.java
+ └── CustomerManagerTest.java
 ```
 
-##  Usage
+## 🚀 Usage
+
+1. Switch to the branch:
 
 ```bash
-git switch feature/exceptions
+git switch feature/testing
 ```
 
-Run the app and test invalid scenarios (e.g. overdraft, invalid input).
+2. Run tests with your IDE or using Maven/Gradle
+3. Review test coverage and results
 
-##  Status
+## 🔀 Status
 
-✔ Feature complete
+✔ Unit tests implemented
+✔ Tested core functionalities
 ✔ Ready for review and merge
 
 ---
 
-**Author: Emmanuel Mensah Peprah
+**Author:** Emmanuel Mensah Peprah

@@ -6,7 +6,7 @@ This branch implements **custom and centralized exception handling** for the Ban
 
 * Handle invalid operations gracefully
 * Enforce domain rules using custom exceptions
-* Improve debugging and user feedback
+* Improve debugging   and user feedback
 
 ##  What’s Included
 

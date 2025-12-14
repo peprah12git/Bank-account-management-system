@@ -223,7 +223,8 @@ public class Main {
         return inputReader.readInt("Enter choice (1-2): ", 1, 2);
     }
 
-    private static Transaction buildTransaction(Account account, int transactionType, double amount) {
+    private static Transaction
+    buildTransaction(Account account, int transactionType, double amount) {
         String type;
         if (transactionType == 1) {
             type = "DEPOSIT";

@@ -9,7 +9,7 @@ import utils.*;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("+-------------------------\n| BANK ACCOUNT MANAGEMENT |\n+-------------------------+");
+        System.out.println("+-------------------------\n| BANK ACCOUNT MANAGEMENT SYSTEM |\n+-------------------------+");
 
         AccountManager accountManager = new AccountManager();
         TransactionManager transactionManager = new TransactionManager();

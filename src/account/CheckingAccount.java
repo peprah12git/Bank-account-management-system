@@ -1,6 +1,8 @@
 package account;
 
 import customers.Customer;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
 
 public class CheckingAccount extends Account {
 
@@ -28,7 +30,7 @@ public class CheckingAccount extends Account {
     }
 
     @Override
-    public boolean withdraw(double amount) {
+    public boolean withdraw (double amount) throws InsufficientFundsException{
         double allowedLimit = -overdraftLimit; // balance can go down to -1000
 
         if (getBalance() - amount < allowedLimit) {
@@ -36,11 +38,13 @@ public class CheckingAccount extends Account {
             return false;
         }
 
-        return super.withdraw(amount); // uses parent logic for updating balance
+        // Actually deduct the amount
+        setBalance(getBalance() - amount);
+        return true;
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) {
+    public boolean processTransaction(double amount, String type) throws InvalidAmountException {
         if (type.equalsIgnoreCase("Deposit")) {
             if (amount <= 0) {
                 return false;
@@ -52,7 +56,11 @@ public class CheckingAccount extends Account {
                 return false;
             }
             double oldBalance = this.getBalance();
-            this.withdraw(amount);
+            try {
+                this.withdraw(amount);
+            }catch (InsufficientFundsException e){
+                return false;
+            }
             return this.getBalance() != oldBalance;
         }
         return false;

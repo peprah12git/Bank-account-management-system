@@ -1,6 +1,8 @@
 package account;
 
 import customers.Customer;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
 
 public abstract class Account {
     private String accountNumber;
@@ -27,11 +29,11 @@ public abstract class Account {
     public String getAccountNumber() {
         return accountNumber;
     }
-    // getter for customer
+    // getter for Test.customer
     public Customer getCustomer() {
         return customer;
     }
-    // setter for customer
+    // setter for Test.customer
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -50,33 +52,44 @@ public abstract class Account {
     }
 
     // Setters for balance
-    public double setBalance(double balance) {
-        return balance;
+    public void setBalance(double balance) {
+        this.balance = balance;  //  Actually update the field
     }
-    // get accounts.Account method & Display Account method
+    // get Test.accounts.Account method & Display Account method
     public abstract void displayAccountDetails();
     public abstract String getAccountType();
 
-    // Deposit money
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println("Deposit successful. Balance: " + balance);
-        } else {
-            System.out.println("Invalid deposit amount.");
-        }
-    }
-    // Withdraw Money
-    public  boolean withdraw(double amount){
-        if (amount > balance){
-            System.out.println("Insufficient funds withdrawer can not be made");
-        }else {
-            balance-=amount;
-            System.out.println("Withdrawal made successfully");
-        }
-        return true;
+    // -------------Deposit money--------------------
+
+    /**
+     * @param amount
+     * @throws InvalidAmountException
+     */
+    public void deposit(double amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Deposit amount can not be zero");
+        } this.balance+=amount;
     }
 
-    public abstract boolean processTransaction(double amount, String type);
+    /**
+     *
+     * @param amount
+     * @return
+     * @throws InsufficientFundsException
+     * @throws InvalidAmountException
+     */
+    // Withdraw Money
+//    public  boolean withdraw(double amount) throws InsufficientFundsException ,InvalidAmountException{
+//        if (amount > balance){
+//            throw new InsufficientFundsException("Insufficient funds! current balance is " + getBalance());
+//        } if (amount <= balance){
+//            throw new InvalidAmountException("Withdrawal must be greater done Zero is ");
+//        }
+//            balance-=amount;
+//        return true;
+//    }
+    public abstract boolean withdraw(double amount) throws InsufficientFundsException;
+
+    public abstract boolean processTransaction(double amount, String type) throws InvalidAmountException;
 
 }

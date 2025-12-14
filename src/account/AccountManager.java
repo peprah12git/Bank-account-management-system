@@ -1,4 +1,7 @@
 package account;
+import exceptions.AccountNotFoundException;
+import exceptions.ViewAccountException;
+import utils.InputReader;
 
 public class AccountManager {
     private Account[] accounts;
@@ -20,27 +23,29 @@ public class AccountManager {
         }
     }
 
-    // find account method
-    public Account findAccount(String accountNumber) {
+    //------------------ finding account method----------------
+    public Account findAccount(String accountNumber) throws AccountNotFoundException {
+        // Loop through all Test.accounts in the manager
         for (int i = 0; i < accountCount; i++) {
             if (accounts[i].getAccountNumber().equals(accountNumber)) {
                 return accounts[i];
             }
         }
-        return null;  // no match found
+        // If no account matches, throw exception
+        throw new AccountNotFoundException("Account not found: " + accountNumber);
     }
 
-    // view all accounts
-    public void viewAllAccounts() {
+    // view all Test.accounts
+    public void viewAllAccounts(InputReader inputReader) throws ViewAccountException {
         if (accountCount == 0) {
-            System.out.println("No accounts available.");
-            return;
+            throw new ViewAccountException(); // Throw exception instead of printing
         }
 
         for (int i = 0; i < accountCount; i++) {
             accounts[i].displayAccountDetails();
             System.out.println("--------------------------------");
         }
+        inputReader.waitForEnter();
     }
 
     // sum of all balances
@@ -54,7 +59,7 @@ public class AccountManager {
         return total;
     }
 
-    // number of accounts
+    // number of Test.accounts
     public int getAccountCount() {
         return accountCount;
     }

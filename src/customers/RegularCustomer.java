@@ -1,5 +1,6 @@
 package customers;
 
+
 public class RegularCustomer extends Customer{
     // contructor acepting name, age , contact and address
     public RegularCustomer(String name, int age, String contact, String address) {

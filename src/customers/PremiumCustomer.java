@@ -19,7 +19,7 @@ public class PremiumCustomer extends Customer {
 
     @Override
     public void displayCustomerDetails() {
-        // show customer info + premium benefits
+        // show Test.customer info + premium benefits
     }
 
     @Override

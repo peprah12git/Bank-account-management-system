@@ -1,6 +1,6 @@
 package customers;
 
-public abstract class Customer {
+public abstract class   Customer {
     private static int customerCounter = 0;
     private final String customerId;
     private String name;
@@ -42,7 +42,7 @@ public abstract class Customer {
         return address;
     }
 
-    // setter for customer
+    // setter for Test.customer
     public void setName(String name) {
         this.name = name;
     }

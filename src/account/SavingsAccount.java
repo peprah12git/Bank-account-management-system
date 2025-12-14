@@ -1,6 +1,8 @@
 package account;
 
 import customers.Customer;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
 
 public class SavingsAccount extends Account{
 
@@ -26,17 +28,27 @@ public class SavingsAccount extends Account{
 
     }
 
+    /**
+     * Validates that a withdrawal amount does not breach the minimum balance requirement.
+     *
+     * @param amount
+     * @return
+     * @throws InsufficientFundsException when the withdrawal would result in a balance below the minimum
+     * @throws InvalidAmountException
+     */
+
     @Override
-    public boolean withdraw(double amount) {
+    public boolean withdraw(double amount)  throws InsufficientFundsException {
         if (getBalance() - amount < minimumBalance) {
             System.out.println(" Withdrawal denied! Balance cannot go below minimum: $" + minimumBalance);
             return false;
         }
-        return super.withdraw(amount);
+        this.setBalance(getBalance() - amount);
+        return true;  //  Return true on success
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) {
+    public boolean processTransaction(double amount, String type) throws InvalidAmountException {
         if (type.equalsIgnoreCase("Deposit")) {
             if (amount <= 0) {
                 return false;
@@ -48,7 +60,11 @@ public class SavingsAccount extends Account{
                 return false;
             }
             double oldBalance = this.getBalance();
-            this.withdraw(amount);
+            try {
+                this.withdraw(amount);
+            }catch (InsufficientFundsException e){
+                return false;
+            }
             return this.getBalance() != oldBalance;
         }
         return false;

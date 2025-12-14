@@ -30,16 +30,25 @@ public class CheckingAccount extends Account {
     }
 
     @Override
-    public boolean withdraw (double amount) throws InsufficientFundsException{
-        double allowedLimit = -overdraftLimit; // balance can go down to -1000
-
-        if (getBalance() - amount < allowedLimit) {
-            System.out.println("Withdrawal denied! Exceeds overdraft limit of $" + overdraftLimit);
-            return false;
+    public boolean withdraw(double amount) throws InsufficientFundsException {
+        // Validate amount
+        if (amount <= 0) {
+            throw new InsufficientFundsException("Withdrawal amount must be greater than zero");
         }
 
-        // Actually deduct the amount
+        double allowedLimit = -overdraftLimit; // balance can go down to -1000
+
+        // Check if withdrawal exceeds overdraft limit
+        if (getBalance() - amount < allowedLimit) {
+            throw new InsufficientFundsException(
+                    "Withdrawal denied! Exceeds overdraft limit of $" + overdraftLimit +
+                            ". Current balance: $" + getBalance()
+            );
+        }
+
+        //  Actually perform the withdrawal
         setBalance(getBalance() - amount);
+        System.out.println("Withdrawal successful! New balance: $" + getBalance());
         return true;
     }
 

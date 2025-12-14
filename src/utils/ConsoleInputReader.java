@@ -73,6 +73,7 @@ public class ConsoleInputReader implements InputReader, AutoCloseable {
         return value;
     }
 
+
     @Override
     public void close() {
         if (scanner != null) {

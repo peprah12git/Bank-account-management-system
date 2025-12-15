@@ -19,12 +19,15 @@ public class SavingsAccount extends Account{
 
     @Override
     public void displayAccountDetails() {
-        System.out.println( "Account Number: " + getAccountNumber() +
-                "| |Customer Name: " + getCustomer().getName() +
-                "| |Account Type: Savings" +
-                "| |Balance: $" + getBalance() +
-                "| | Interest Rate: " + interestRate + "%" +
-                "| | Minimum Balance: $" + minimumBalance);
+        System.out.println("Account Number: " + getAccountNumber() +
+                    " | Customer Name: " + getCustomer().getName() +
+                    " | Account Type: Savings");
+            System.out.println("---------------------------");
+            System.out.println("Balance: $" + getBalance() +
+                    " | Interest Rate: " + interestRate + "%" +
+                    " | Minimum Balance: $" + minimumBalance);
+            System.out.println("---------------------------");
+
 
     }
 
@@ -40,8 +43,9 @@ public class SavingsAccount extends Account{
     @Override
     public boolean withdraw(double amount)  throws InsufficientFundsException {
         if (getBalance() - amount < minimumBalance) {
-            System.out.println(" Withdrawal denied! Balance cannot go below minimum: $" + minimumBalance);
-            return false;
+            throw new InsufficientFundsException("Withdrawal denied! Balance cannot go below minimum: $ " + + minimumBalance);
+//            System.out.println(" Withdrawal denied! Balance cannot go below minimum: $" + minimumBalance);
+//            return false;
         }
         this.setBalance(getBalance() - amount);
         return true;  //  Return true on success

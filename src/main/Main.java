@@ -127,7 +127,8 @@ public class Main {
     }
 
     private static Customer createCustomer(InputReader inputReader) {
-        String name = inputReader.readString("\nEnter customer name: ");
+
+        String name = inputReader.readString("Enter customer name: ");
         int age = inputReader.readInt("Enter customer age: ", 0, 150);
         String contact = inputReader.readString("Enter customer contact: ");
         String address = inputReader.readString("Enter customer address: ");
@@ -144,6 +145,7 @@ public class Main {
             return new PremiumCustomer(name, age, contact, address);
         }
     }
+
 
     private static Account createAccountForCustomer(InputReader inputReader, Customer customer) {
         System.out.println("\nAccount type:");
@@ -390,51 +392,6 @@ public class Main {
         System.out.println();
         System.out.println("✓ Statement generated successfully.");
     }
-
-//    private static void displaySummary(
-//            TransactionManager transactionManager,
-//            String accountNumber,
-//            double balance) {
-//
-//        double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
-//        double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
-//
-//        System.out.println("\n---Transactions Statements ---");
-//        System.out.println("ID      | TYPE       | AMOUNT      | BALANCE");
-//        System.out.printf("Total Deposits: $%.2f\n", totalDeposits);
-//        System.out.printf("Total Withdrawals: $%.2f\n", totalWithdrawals);
-//        System.out.printf("Net Change: $%.2f\n", totalDeposits - totalWithdrawals);
-//        System.out.printf("Closing Balance: $%.2f\n", balance);
-//
-//    }
-//    private static void displaySummary(
-//            TransactionManager transactionManager,
-//            String accountNumber,
-//            double balance) {
-//
-//        double totalDeposits = transactionManager.calculateTotalDepositsForAccount(accountNumber);
-//        double totalWithdrawals = transactionManager.calculateTotalWithdrawals();
-//
-//        System.out.println("\n---  Statement Generated ---");
-//        System.out.println("─────────────────────────────────────────────────────────");
-//        System.out.printf("%-10s | %-12s | %12s | %12s\n", "ID", "TYPE", "AMOUNT", "BALANCE");
-//        System.out.println("─────────────────────────────────────────────────────────");
-//
-//        // Display individual transactions
-//        transactionManager.getTransactionsForAccount(accountNumber);
-//
-//        System.out.println("─────────────────────────────────────────────────────────");
-//        System.out.printf("%-25s | %12s | %12s\n", "Total Deposits:",
-//                String.format("$%,.2f", totalDeposits), "");
-//        System.out.printf("%-25s | %12s | %12s\n", "Total Withdrawals:",
-//                String.format("$%,.2f", totalWithdrawals), "");
-//        System.out.printf("%-25s | %12s | %12s\n", "Net Change:",
-//                String.format("$%,.2f", totalDeposits - totalWithdrawals), "");
-//        System.out.printf("%-25s | %12s | %12s\n", "Closing Balance:",
-//                String.format("$%,.2f", balance), "");
-//        System.out.println("─────────────────────────────────────────────────────────");
-//    }
-
 
     // ========================================
     // TEST RUNNER

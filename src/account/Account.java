@@ -88,7 +88,7 @@ public abstract class Account {
 //            balance-=amount;
 //        return true;
 //    }
-    public abstract boolean withdraw(double amount) throws InsufficientFundsException;
+    public abstract boolean withdraw(double amount) throws InsufficientFundsException, InvalidAmountException;
 
     public abstract boolean processTransaction(double amount, String type) throws InvalidAmountException;
 

@@ -58,17 +58,25 @@ public class ConsoleInputReader implements InputReader, AutoCloseable {
         return value;
     }
 
-    @Override
     public String readString(String prompt) {
         String value;
         while (true) {
             System.out.print(prompt);
             value = scanner.nextLine().trim();
-            if (!value.isEmpty()) {
-                break;
-            } else {
+
+            // checking for emptiness
+            if (value.isEmpty()) {  // Changed: removed the '!'
                 System.out.println("Input cannot be empty. Please try again.");
+                continue;
             }
+
+            // Check for numbers (Digits 0-9)
+            if (value.matches(".*\\d.*")) {
+                System.out.println("Error: Name cannot contain numbers. Please enter a valid name.");
+                continue;
+            }
+
+            break;
         }
         return value;
     }

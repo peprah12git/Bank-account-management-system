@@ -130,7 +130,7 @@ public class Main {
 
         String name = inputReader.readString("Enter customer name: ");
         int age = inputReader.readInt("Enter customer age: ", 0, 150);
-        String contact = inputReader.readString("Enter customer contact: ");
+        String contact = inputReader.readContact("Enter customer contact: ");
         String address = inputReader.readString("Enter customer address: ");
 
         System.out.println("\nCustomer type:");
@@ -156,7 +156,7 @@ public class Main {
 
         double minDeposit;
         if (customer instanceof PremiumCustomer) {
-            minDeposit = 10000.0;
+            minDeposit = 1000.0;
         } else {
             if (accountType == 1) {
                 minDeposit = 500.0;

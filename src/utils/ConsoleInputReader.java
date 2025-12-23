@@ -37,6 +37,24 @@ public class ConsoleInputReader implements InputReader, AutoCloseable {
         }
         return value;
     }
+    //----reading contact
+    public String readContact(String prompt) {
+        String contact;
+
+        while (true) {
+            System.out.print(prompt);
+            contact = scanner.nextLine().trim();
+
+            // Accept digits only, length 10–15 (you can adjust)
+            if (contact.matches("\\d{10,15}")) {
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter a valid contact number.");
+            }
+        }
+        return contact;
+    }
+
 
     @Override
     public double readDouble(String prompt, double min) {

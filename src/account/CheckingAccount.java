@@ -19,13 +19,11 @@ public class CheckingAccount extends Account {
     @Override
     public void displayAccountDetails() {
         System.out.println("---------------------------------------------");
-        System.out.println( "Account Number: " + getAccountNumber() +
-                "| |Customer Name: " + getCustomer().getName() +
-                "| |Account Type: Checking" +
-                "| |Balance: $" + getBalance() +
-                "| |Overdraft Limit: $" + overdraftLimit
-
-        );
+        System.out.printf("| %-19s | %-39s |\n", "Account Number", getAccountNumber());
+        System.out.printf("| %-19s | %-39s |\n","Customer Name", getCustomer().getName());
+        System.out.printf("| %-19s | %-39s :q!|\n", "Account Type","Checking" );
+        System.out.printf("| %-19s | %-39s |\n", "Balance ", "$", getBalance());
+        System.out.printf("| %-19s | %-39s |\n", "Overdraft Limit", overdraftLimit);
         System.out.println("---------------------------------------------");
     }
 

@@ -18,18 +18,20 @@ public class SavingsAccount extends Account{
     }
 
     @Override
+
     public void displayAccountDetails() {
-        System.out.println("Account Number: " + getAccountNumber() +
-                    " | Customer Name: " + getCustomer().getName() +
-                    " | Account Type: Savings");
-            System.out.println("---------------------------");
-            System.out.println("Balance: $" + getBalance() +
-                    " | Interest Rate: " + interestRate + "%" +
-                    " | Minimum Balance: $" + minimumBalance);
-            System.out.println("---------------------------");
-
-
+        System.out.println("-----------------------------------------------------------------");
+        System.out.printf("| %-19s | %-39s |\n", "Created Account Details", "");
+        System.out.println("-----------------------------------------------------------------");
+        System.out.printf("| %-19s | %-39s |\n", "Account Number", getAccountNumber());
+        System.out.printf("| %-19s | %-39s |\n", "Customer Name", getCustomer().getName());
+        System.out.printf("| %-19s | %-39s |\n", "Account Type", "Savings");
+        System.out.printf("| %-19s | %-39s |\n", "Balance", "$" + getBalance());
+        System.out.printf("| %-19s | %-39s |\n", "Interest Rate", interestRate + "%");
+        System.out.printf("| %-19s | %-39s |\n", "Minimum Balance", "$" + minimumBalance);
+        System.out.println("-----------------------------------------------------------------");
     }
+
 
     /**
      * Validates that a withdrawal amount does not breach the minimum balance requirement.

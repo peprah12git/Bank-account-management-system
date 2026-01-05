@@ -3,6 +3,7 @@ package account;
 import customers.Customer;
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidAmountException;
+import exceptions.OverdraftLimitExceededException;
 
 public class CheckingAccount extends Account {
 
@@ -28,23 +29,23 @@ public class CheckingAccount extends Account {
     }
 
     @Override
-    public boolean withdraw(double amount) throws InvalidAmountException {
+    public boolean withdraw(double amount) throws InvalidAmountException, OverdraftLimitExceededException {
         // Validate amount
         if (amount <= 0) {
             throw new InvalidAmountException("Withdrawal amount must be greater than zero");
         }
-
+        // Overdraft boundary
         double allowedLimit = -overdraftLimit; // balance can go down to -1000
 
         // Check if withdrawal exceeds overdraft limit
         if (getBalance() - amount < allowedLimit) {
-            throw new InvalidAmountException(
+            throw new OverdraftLimitExceededException(
                     "Withdrawal denied! Exceeds overdraft limit of $" + overdraftLimit +
                             ". Current balance: $" + getBalance()
             );
         }
 
-        //  Actually perform the withdrawal
+        // perform the withdrawal(May go negative)
         setBalance(getBalance() - amount);
         System.out.println("Withdrawal successful! New balance: $" + getBalance());
         return true;
@@ -65,7 +66,7 @@ public class CheckingAccount extends Account {
             double oldBalance = this.getBalance();
             try {
                 this.withdraw(amount);
-            }catch (InvalidAmountException e){
+            }catch (InvalidAmountException | OverdraftLimitExceededException e){
                 return false;
             }
             return this.getBalance() != oldBalance;

@@ -44,8 +44,7 @@ public class SavingsAccount extends Account{
     public boolean withdraw(double amount)  throws InsufficientFundsException {
         if (getBalance() - amount < minimumBalance) {
             throw new InsufficientFundsException("Withdrawal denied! Balance cannot go below minimum: $ " + + minimumBalance);
-//            System.out.println(" Withdrawal denied! Balance cannot go below minimum: $" + minimumBalance);
-//            return false;
+
         }
         this.setBalance(getBalance() - amount);
         return true;  //  Return true on success
